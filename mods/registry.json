@@ -1,0 +1,19 @@
+{
+	"$schema": "./registry.schema.json",
+	"version": 1,
+	"hidden": [],
+	"mods": [
+		{
+			"name": "cmd-mod-hi",
+			"source": "cmd-mod-hi",
+			"description": "Roasts you every time you greet your agent with \"hi\". One transformInput hook plus a renderer, and a /hi-stats command that tallies the damage.",
+			"author": { "name": "Ahmad Awais", "github": "ahmadawais" },
+			"repo": "https://github.com/ahmadawais/cmd-mod-hi",
+			"npm": "cmd-mod-hi",
+			"kinds": ["hook", "command", "renderer"],
+			"tags": ["fun", "example"],
+			"official": true,
+			"addedAt": "2026-07-22"
+		}
+	]
+}

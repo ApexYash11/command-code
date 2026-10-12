@@ -1,0 +1,96 @@
+{
+	"$schema": "http://json-schema.org/draft-07/schema#",
+	"title": "Command Code mods registry",
+	"description": "The curated layer behind commandcode.ai/mods. Packages published to npm with the `cmd-mod` keyword are listed automatically; this file adds git-only mods, richer metadata over npm entries (matched by `npm`), and the `hidden` list for moderation. The resolved list is served at https://commandcode.ai/mods.json.",
+	"type": "object",
+	"required": ["version", "mods"],
+	"properties": {
+		"$schema": { "type": "string" },
+		"version": { "type": "integer", "const": 1 },
+		"hidden": {
+			"type": "array",
+			"uniqueItems": true,
+			"items": { "type": "string" },
+			"description": "Mod names (or npm package names) to keep off the hub — spam, malware, impersonation."
+		},
+		"mods": {
+			"type": "array",
+			"items": {
+				"type": "object",
+				"required": [
+					"name",
+					"source",
+					"description",
+					"author",
+					"kinds"
+				],
+				"additionalProperties": false,
+				"properties": {
+					"name": {
+						"type": "string",
+						"description": "Display name, and the name `cmd mods list` prints.",
+						"pattern": "^[a-z0-9][a-z0-9._-]*$"
+					},
+					"source": {
+						"type": "string",
+						"description": "What `cmd mods add <source>` takes: an npm name (`cmd-mod-hi`, `@team/mod`), or GitHub shorthand (`owner/repo`)."
+					},
+					"description": { "type": "string", "maxLength": 240 },
+					"author": {
+						"type": "object",
+						"required": ["name"],
+						"additionalProperties": false,
+						"properties": {
+							"name": { "type": "string" },
+							"github": {
+								"type": "string",
+								"description": "GitHub login."
+							},
+							"url": { "type": "string", "format": "uri" }
+						}
+					},
+					"repo": {
+						"type": "string",
+						"format": "uri",
+						"description": "Public git repository URL. GitHub repos get a live star count."
+					},
+					"npm": {
+						"type": "string",
+						"description": "npm package name when published to npm. Drives the monthly download count."
+					},
+					"kinds": {
+						"type": "array",
+						"minItems": 1,
+						"uniqueItems": true,
+						"items": {
+							"type": "string",
+							"enum": [
+								"tool",
+								"command",
+								"hook",
+								"provider",
+								"renderer",
+								"flag"
+							]
+						},
+						"description": "What the mod registers on the ModApi."
+					},
+					"tags": {
+						"type": "array",
+						"uniqueItems": true,
+						"items": { "type": "string", "pattern": "^[a-z0-9-]+$" }
+					},
+					"official": {
+						"type": "boolean",
+						"description": "Maintained by the Command Code team."
+					},
+					"addedAt": {
+						"type": "string",
+						"format": "date",
+						"description": "ISO date the mod was listed."
+					}
+				}
+			}
+		}
+	}
+}
